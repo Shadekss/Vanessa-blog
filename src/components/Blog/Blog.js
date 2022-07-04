@@ -3,10 +3,11 @@ import {posts} from "../../Shared/ProjectData";
 import {BlogCard} from "./Components/BlogCard";
 import React from "react";
 import {Component} from "react";
+import {AddPostForm} from "./Components/AddPostForm";
 
 export class Blog extends Component {
     state = {
-        showBlog: true,
+        showAddForm: false,
         blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts
     }
 
@@ -21,20 +22,13 @@ export class Blog extends Component {
         localStorage.setItem('blogPosts', JSON.stringify(temp))
     }
 
-    toggleBlog = () => {
-        this.setState({
-                showBlog:!this.state.showBlog
-            }
-        )
-    }
-
     deletePost = pos => {
         if (window.confirm(`Удалить ${this.state.blogArr[pos].title}?`)) {
             const temp = [...this.state.blogArr]
             temp.splice(pos, 1)
 
             this.setState({
-                blogArr:temp
+                blogArr: temp
             })
 
             localStorage.setItem('blogPosts', JSON.stringify(temp))
@@ -42,8 +36,15 @@ export class Blog extends Component {
         }
     }
 
+    handleAddFormShow = () => {
+        this.setState({
+            showAddForm: true
+        })
+    }
+
+
     render() {
-        const blogPosts = this.state.blogArr.map((item,pos) => {
+        const blogPosts = this.state.blogArr.map((item, pos) => {
             return (
                 <BlogCard
                     key={item.id}
@@ -59,20 +60,20 @@ export class Blog extends Component {
 
         return (
             <>
-                <button onClick={this.toggleBlog}>
-                    {
-                        this.state.showBlog ? 'Cкрыть блог' : 'Показать блог'
-                    }
-                </button>
                 {
-                    this.state.showBlog ?
+                    this.state.showAddForm ? <AddPostForm> </AddPostForm>
+                        : null
+                }
+
+
+                {
                         <>
                             <h1>Simple Blog</h1>
+                            <button className="blackBtn" onClick={this.handleAddFormShow}>Создать новый пост</button>
                             <div className="posts">
                                 {blogPosts}
                             </div>
                         </>
-                        : null
                 }
             </>
         )
