@@ -42,6 +42,12 @@ export class Blog extends Component {
         })
     }
 
+    handleAddFormHide = () => {
+        this.setState({
+            showAddForm: false
+        })
+    }
+
 
     render() {
         const blogPosts = this.state.blogArr.map((item, pos) => {
@@ -61,7 +67,7 @@ export class Blog extends Component {
         return (
             <>
                 {
-                    this.state.showAddForm ? <AddPostForm> </AddPostForm>
+                    this.state.showAddForm ? <AddPostForm handleAddFormHide={this.handleAddFormHide}> </AddPostForm>
                         : null
                 }
 
