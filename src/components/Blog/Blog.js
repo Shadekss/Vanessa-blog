@@ -71,7 +71,6 @@ export class Blog extends Component {
                         : null
                 }
 
-
                 {
                         <>
                             <h1>Simple Blog</h1>
